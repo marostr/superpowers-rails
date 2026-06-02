@@ -34,11 +34,11 @@ Task tool (general-purpose):
 
 Check if Rails project (look for Gemfile with rails, app/controllers, etc.)
 
-If Rails, dispatch rails reviewer using agent at `agents/rails-reviewer.md`:
+If Rails, dispatch rails reviewer using the template at `skills/subagent-driven-development/rails-reviewer-prompt.md`:
 
 ```
-Task tool (superpowers:rails-reviewer):
-  Use agent at agents/rails-reviewer.md
+Task tool (general-purpose):
+  Use template at skills/subagent-driven-development/rails-reviewer-prompt.md
   FILES_CHANGED: [list]
   BASE_SHA: [sha]
   HEAD_SHA: [sha]
