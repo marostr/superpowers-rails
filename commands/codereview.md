@@ -48,11 +48,11 @@ Task tool (superpowers:rails-reviewer):
 
 ## Step 4: Code Quality Review
 
-Dispatch code quality reviewer using agent at `agents/code-reviewer.md`:
+Dispatch code quality reviewer using the template at `skills/requesting-code-review/code-reviewer.md`:
 
 ```
-Task tool (superpowers:code-reviewer):
-  Use agent at agents/code-reviewer.md
+Task tool (general-purpose):
+  Fill template at skills/requesting-code-review/code-reviewer.md
   FILES_CHANGED: [list]
   BASE_SHA: [sha]
   HEAD_SHA: [sha]

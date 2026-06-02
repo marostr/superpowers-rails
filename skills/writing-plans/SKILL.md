@@ -50,7 +50,7 @@ The executor will load these skills and apply them. Plans reference conventions 
 | "I only need controller conventions" | Tasks touch multiple files. Load all. |
 | "Too many skills" | ~2500 words total. 10 seconds to load. |
 
-**Context:** This should be run in a dedicated worktree (created by brainstorming skill).
+**Context:** If working in an isolated worktree, it should have been created via the `superpowers:using-git-worktrees` skill at execution time.
 
 **Save plans to:** `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
 - (User preferences for plan location override this default)
