@@ -74,13 +74,28 @@ See `docs/testing.md` for mechanics.
    planning, or SDD skills, run a quick `claude -p` scenario against an actual
    Rails repo and sanity-check the behavior. Use judgment about scope.
 
-### Known brittle test (not a blocker)
+### Known pre-existing test failures (not merge regressions, not blockers)
 
-`test-subagent-driven-development.sh` Test 2 ("Workflow ordering") asserts on
-the *word order of a free-text answer* ("what comes first, spec compliance or
-code quality?"). The fork inserts a Rails-conventions review step plus a
-rationalization row mentioning "Code quality", which makes the model mention
-"code quality" early in its prose, so the grep-based ordering check fails. The
-skill content is correct (spec compliance → Rails conventions → code quality);
-this is a brittle assertion, not a behavioral defect. Don't treat it as a merge
-regression. Fixing the assertion is tracked separately from upstream syncs.
+Two SDD tests fail independently of any upstream sync. Both were verified
+against pre-merge `main` (run the same test from a `git worktree add` of the
+old commit) — old `main` fails them identically, so they are not introduced by
+a merge and not a behavioral defect in the merged code.
+
+1. **`test-subagent-driven-development.sh` Test 2 ("Workflow ordering").**
+   Asserts on the *word order of a free-text answer* ("what comes first, spec
+   compliance or code quality?"). The fork's Rails-review insertion plus a
+   rationalization row mentioning "Code quality" make the model say "code
+   quality" early in its prose, so the grep-based ordering check fails. The
+   skill content is correct: spec compliance → Rails conventions → code quality.
+
+2. **`test-subagent-driven-development-integration.sh` Test 3 ("Task
+   tracking").** Greps the transcript for a `TodoWrite` tool call. The model
+   *narrates* "extracted tasks into TodoWrite" but often doesn't emit the actual
+   tool call on a trivial 2-task plan. Confirmed: pre-merge `main` also emits 0
+   `TodoWrite` calls. (Initially suspected upstream's new "Continuous execution
+   … progress summaries waste their time" directive — ruled out by the control
+   run.)
+
+Everything these integration tests assert about *correctness* (full review
+loop, spec compliance, working implementation, commits) passes on the merged
+branch. Fixing the two brittle assertions is tracked separately from syncs.
