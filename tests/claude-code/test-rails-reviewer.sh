@@ -178,6 +178,12 @@ echo ""
 
 # Test 1: A subagent was actually dispatched (the whole point of the refactor —
 # the review runs in a general-purpose subagent, not inline).
+#
+# Note: unlike upstream's test-requesting-code-review.sh we do NOT assert a
+# skill invocation here — the rails reviewer is dispatched from a prompt
+# template (rails-reviewer-prompt.md), not a Skill, so there is no
+# "skill":"..." marker to match. "name":"Agent" is the available dispatch
+# signal. (Don't "fix" this by adding a skill assertion; there is no skill.)
 echo "Test 1: reviewer subagent dispatched..."
 if [ -z "$SESSION_FILE" ] || [ ! -f "$SESSION_FILE" ]; then
     echo "  [FAIL] Could not locate session transcript in $SESSION_DIR"
@@ -216,19 +222,33 @@ else
 fi
 echo ""
 
-# Test 3: Missing authorize call flagged (the #1 controller convention).
+# IMPORTANT — assertion design (why these are anchored to finding-language):
+# The template instructs the reviewer to run `git diff`, so the planted source
+# tokens (`authorize`, `.where`, `double`/`stub`) can appear in the transcript
+# regardless of review quality. The baseline #index even keeps a correct
+# `authorize Project`, so a bare `grep authoriz` matches even if the reviewer
+# never notices #archived's omission. Bare-token greps therefore gate "a diff
+# was printed", not "the violation was caught". Each per-violation test below
+# anchors to language a reviewer uses when FLAGGING the issue (a negative /
+# analysis phrasing), and Test 6 adds an ungameable verdict gate that code-echo
+# cannot satisfy. (Mirrors the negative-verdict assertion in
+# test-requesting-code-review.sh:182.)
+
+# Test 3: Missing authorize call FLAGGED — require negative/finding context near
+# "authoriz" so a correct mention of #index's authorize doesn't pass.
 echo "Test 3: Missing authorize call flagged..."
-if grep -qiE "authoriz" "$OUTPUT_FILE"; then
+if grep -qiE "(missing|no |without|lacks?|absent|fails? to|does ?n.?t|not (called|present|added|invoked)|every action|each action)[^.]{0,60}authoriz|authoriz[^.]{0,60}(missing|absent|every action|each action|not (called|present|added|invoked))" "$OUTPUT_FILE"; then
     echo "  [PASS] Reviewer flagged the missing authorize call"
 else
-    echo "  [FAIL] Reviewer missed the missing authorize call"
+    echo "  [FAIL] Reviewer missed the missing authorize call (or only mentioned it without flagging)"
     FAILED=$((FAILED + 1))
 fi
 echo ""
 
-# Test 4: Association reaching / message-passing violation flagged.
+# Test 4: Association reaching FLAGGED — anchor to reviewer analysis vocabulary,
+# not the bare `.where` token that appears in the echoed diff.
 echo "Test 4: Association reaching flagged..."
-if grep -qiE "message.?passing|association|reach|\.where|delegate to (the )?model|push.*into.*model|move.*to.*model" "$OUTPUT_FILE"; then
+if grep -qiE "message.?passing|reach(es|ing|ed)? into|association reach|ask(ing|s)? the model|delegate[^.]{0,30}model|(push|move)[^.]{0,30}(in)?to[^.]{0,15}model|belongs in the model|leak(s|ing)? .*(query|implementation)" "$OUTPUT_FILE"; then
     echo "  [PASS] Reviewer flagged the association reaching"
 else
     echo "  [FAIL] Reviewer missed the association reaching (message-passing OOP)"
@@ -236,9 +256,10 @@ else
 fi
 echo ""
 
-# Test 5: Mocked-behavior test flagged.
+# Test 5: Mocked-behavior test FLAGGED — anchor to the reviewer describing the
+# problem, not the bare `mock`/`stub`/`double` tokens present in the diff.
 echo "Test 5: Mocked-behavior test flagged..."
-if grep -qiE "mock|stub|double|test.*real|not.*testing|tests? (the )?(mock|stub)" "$OUTPUT_FILE"; then
+if grep -qiE "tests? (the )?(mock|stub|double)|mock(s|ed|ing)?[^.]{0,40}(instead|not (the )?real|behavior|rather than)|stub(s|bed|bing)?[^.]{0,40}(the )?(method|model|under test|itself)|not[^.]{0,25}(testing )?real (logic|behavior|code)|asserts? on (the |a )?(mock|stub|double)|doesn.?t test (real|the actual)" "$OUTPUT_FILE"; then
     echo "  [PASS] Reviewer flagged the mocked-behavior test"
 else
     echo "  [FAIL] Reviewer missed the mocked-behavior test"
@@ -246,12 +267,18 @@ else
 fi
 echo ""
 
-# Test 6: Findings classified at Critical/Important severity.
-echo "Test 6: Severity classification..."
-if grep -qiE "critical|important" "$OUTPUT_FILE"; then
-    echo "  [PASS] Reviewer classified findings at Critical/Important severity"
+# Test 6: Verdict gate (UNGAMEABLE by code-echo). A correct review of this diff
+# MUST conclude with violations found — the template's output format emits
+# "❌ Rails convention violations: N critical, ..." — and must NOT emit the
+# clean "✅ Rails conventions followed" verdict. A broken/sycophantic reviewer,
+# or a main agent merely echoing the diff, cannot produce this.
+echo "Test 6: Reviewer verdict (violations found, not approved)..."
+if grep -qE "❌|convention violations?:" "$OUTPUT_FILE" \
+   && grep -qiE "critical" "$OUTPUT_FILE" \
+   && ! grep -qE "✅ Rails conventions followed" "$OUTPUT_FILE"; then
+    echo "  [PASS] Reviewer returned a violations verdict (not a clean pass)"
 else
-    echo "  [FAIL] Reviewer did not classify findings as Critical or Important"
+    echo "  [FAIL] Reviewer did not return a violations verdict (echo/clean-pass not acceptable)"
     FAILED=$((FAILED + 1))
 fi
 echo ""
@@ -269,7 +296,7 @@ if [ $FAILED -eq 0 ]; then
     echo "  ✓ Flagged the missing authorize call"
     echo "  ✓ Flagged the association reaching"
     echo "  ✓ Flagged the mocked-behavior test"
-    echo "  ✓ Classified findings at Critical/Important severity"
+    echo "  ✓ Returned a violations verdict (not a clean pass)"
     exit 0
 else
     echo "STATUS: FAILED"

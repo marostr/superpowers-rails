@@ -43,7 +43,8 @@ unvalidated skill/behavior changes straight to `main`.
   - `hooks/rails-conventions.sh` + its entry in `hooks/hooks.json`
   - `skills/subagent-driven-development/rails-reviewer-prompt.md`
   - `commands/codereview.md`
-  - the `hotwire-conventions` skill
+  (Hotwire/Turbo guidance lives in `skills/rails-stimulus-conventions/`, one of
+  the 8 above — there is no separate `hotwire-conventions` skill in this repo.)
 - **Adapt to upstream removals.** When upstream deletes something a fork file
   references (e.g. v5.1.0 removed the named `code-reviewer` agent), update the
   fork reference to the new pattern rather than restoring the deleted file
