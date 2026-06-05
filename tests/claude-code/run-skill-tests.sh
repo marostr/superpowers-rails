@@ -79,6 +79,8 @@ tests=(
 # Integration tests (slow, full execution)
 integration_tests=(
     "test-subagent-driven-development-integration.sh"
+    "test-requesting-code-review.sh"
+    "test-rails-reviewer.sh"
 )
 
 # Add integration tests if requested
