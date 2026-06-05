@@ -81,6 +81,7 @@ integration_tests=(
     "test-subagent-driven-development-integration.sh"
     "test-requesting-code-review.sh"
     "test-rails-reviewer.sh"
+    "test-writing-plans-vertical-slices.sh"
 )
 
 # Add integration tests if requested
