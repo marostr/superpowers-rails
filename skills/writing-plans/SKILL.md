@@ -7,11 +7,38 @@ description: Use when you have a spec or requirements for a multi-step task, bef
 
 ## Overview
 
-Write implementation plans as bite-sized tasks. Document which files to touch, what to build, how to test it. DRY. YAGNI. TDD. Frequent commits.
+Turn a spec into a short, ordered list of **vertical slices**. A slice is one user-facing capability cut through every layer it needs (migration + model + controller + view + test) — **shippable on its own** and **testable end-to-end on its own**.
 
-Assume the executor is a skilled developer with access to the codebase and convention skills. They can read existing code, infer patterns, and write idiomatic implementations. They need to know WHAT to build and WHERE, not HOW to write every line.
+The spec already says WHAT and WHY. The plan adds only three things: how the work is **sliced**, in what **order**, and the **end-to-end behavior** that proves each slice works. Assume a skilled executor with the codebase and the convention skills — they know HOW. Do not script it.
 
 **Announce at start:** "I'm using the writing-plans skill to create the implementation plan."
+
+## The one rule: slice vertically, never horizontally
+
+Each task is a **vertical slice**, never a technical layer.
+
+```
+❌ HORIZONTAL — nothing works or ships until the last task
+   Task 1: all migrations
+   Task 2: all models
+   Task 3: all controllers + policies
+   Task 4: all views
+   Task 5: write the tests
+```
+```
+✅ VERTICAL — each task ships and is end-to-end tested on its own
+   Slice 1: View the reading list    (migration + model + index action + view + system spec)
+   Slice 2: Add a link               (create action + form + validation + Turbo Stream + system spec)
+   Slice 3: Mark a link read/unread  (LinkRead record + toggle action + UI + system spec)
+```
+
+A slice is correct only when all three are YES:
+
+- **Shippable on its own** — merge it and the app still works, with one more capability than before.
+- **End-to-end testable on its own** — it carries a system/request spec that exercises the whole path, written and green *within the slice* — never deferred to a "write the tests" task at the end.
+- **One capability** — something you'd describe to a user ("a member can now…"), not "the model layer".
+
+If a task produces only a model, only policies, only a component, or only migrations, it is a layer — fold it into the first slice that uses it.
 
 ## Rails Projects - MANDATORY
 
@@ -29,7 +56,7 @@ digraph rails_check {
 }
 ```
 
-**Before writing ANY task code for a Rails project, you MUST load ALL convention skills:**
+**Before writing ANY task for a Rails project, you MUST load ALL convention skills:**
 
 ```
 superpowers:rails-controller-conventions
@@ -47,37 +74,15 @@ The executor will load these skills and apply them. Plans reference conventions 
 | Rationalization | Reality |
 |-----------------|---------|
 | "I already know Rails conventions" | These are PROJECT conventions. Load them. |
-| "I only need controller conventions" | Tasks touch multiple files. Load all. |
+| "I only need controller conventions" | A slice touches every layer. Load all. |
 | "Too many skills" | ~2500 words total. 10 seconds to load. |
-
-**Context:** If working in an isolated worktree, it should have been created via the `superpowers:using-git-worktrees` skill at execution time.
 
 **Save plans to:** `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
 - (User preferences for plan location override this default)
 
 ## Scope Check
 
-If the spec covers multiple independent subsystems, it should have been broken into sub-project specs during brainstorming. If it wasn't, suggest breaking this into separate plans — one per subsystem. Each plan should produce working, testable software on its own.
-
-## File Structure
-
-Before defining tasks, map out which files will be created or modified and what each one is responsible for. This is where decomposition decisions get locked in.
-
-- Design units with clear boundaries and well-defined interfaces. Each file should have one clear responsibility.
-- You reason best about code you can hold in context at once, and your edits are more reliable when files are focused. Prefer smaller, focused files over large ones that do too much.
-- Files that change together should live together. Split by responsibility, not by technical layer.
-- In existing codebases, follow established patterns. If the codebase uses large files, don't unilaterally restructure - but if a file you're modifying has grown unwieldy, including a split in the plan is reasonable.
-
-This structure informs the task decomposition. Each task should produce self-contained changes that make sense independently.
-
-## Bite-Sized Task Granularity
-
-**Each step is one action (2-5 minutes):**
-- "Write the failing test" - step
-- "Run it to make sure it fails" - step
-- "Implement the minimal code to make the test pass" - step
-- "Run the tests and make sure they pass" - step
-- "Commit" - step
+If the spec covers multiple independent subsystems, it should have been broken into sub-project specs during brainstorming. If it wasn't, suggest separate plans — one per subsystem. Each plan must produce working, testable software on its own.
 
 ## Plan Document Header
 
@@ -86,87 +91,78 @@ This structure informs the task decomposition. Each task should produce self-con
 ```markdown
 # [Feature Name] Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans. Each slice below is one unit of work — implement them in order, one subagent per slice. Slices use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** [One sentence describing what this builds]
 
 **Architecture:** [2-3 sentences about approach]
 
-**Tech Stack:** [Key technologies/libraries]
+**Spec:** [path to the spec this plan implements]
 
 ---
 ```
 
-## Task Structure
+## Slice Structure
+
+Each slice is the whole task. There is no per-step ceremony.
 
 ````markdown
-### Task N: [Component Name]
+### Slice N: [Capability — "A member can …"]
 
-**Files:**
-- Create: `exact/path/to/file.rb`
-- Modify: `exact/path/to/existing.rb`
-- Test: `spec/exact/path/to/file_spec.rb`
-
-- [ ] **Step 1: Write the failing test**
-Test that [specific behavior] works: [describe what to test and key assertions]
-
-- [ ] **Step 2: Run test to verify it fails**
-Run: `bundle exec rspec spec/path/file_spec.rb`
-Expected: FAIL with "message"
-
-- [ ] **Step 3: Write minimal implementation**
-[Describe what to implement — intent-level for routine code, exact code for fragile ops]
-
-- [ ] **Step 4: Run test to verify it passes**
-Run: `bundle exec rspec spec/path/file_spec.rb`
-Expected: PASS
-
-- [ ] **Step 5: Commit**
-```bash
-git add [files]
-git commit -m "feat: description"
-```
+- [ ] **Delivers:** [the user-visible behavior this slice adds]
+- [ ] **Touches:** `db/migrate/...`, `app/models/x.rb`, `app/controllers/y_controller.rb`, `app/views/...`, `spec/system/..._spec.rb`
+- [ ] **End-to-end test (write first, watch it fail, then build the slice to green):**
+  [The system/request scenario that proves the whole path: what the user does, what they should see. This is the slice's definition of done.]
+- [ ] **Notes:** [Only what's non-obvious — intent level. Include EXACT code ONLY for: migrations & data migrations, destructive operations, or non-obvious config (cron syntax, middleware registration, API-specific handling).]
 ````
+
+Do **not** expand a slice into "write failing test → run to confirm fail → implement → run to confirm pass → commit" steps. The executor runs TDD and commits per slice as a matter of course — the slice's end-to-end test IS the failing test they start from.
 
 ## No Placeholders
 
-Every step must contain the actual content an engineer needs. These are **plan failures** — never write them:
-- "TBD", "TODO", "implement later", "fill in details"
-- "Add appropriate error handling" / "add validation" / "handle edge cases"
-- "Write tests for the above" (without specifying what to test and key assertions)
-- "Similar to Task N" (repeat the content — the engineer may be reading tasks out of order)
-- References to types, functions, or methods not defined in any task
+Every slice must carry real content. These are plan failures:
+- "TBD", "TODO", "implement later", "handle edge cases" (without saying which)
+- An end-to-end test described as "test that it works" (without the concrete scenario and what the user should see)
+- "Similar to Slice N" (state it — slices may be read out of order)
+- References to models/methods/routes not introduced by any slice
 
-**When to include exact code in a step:**
-- Migrations and data migrations (wrong code = data loss, hard to reverse)
-- Destructive operations (rm, DROP, truncate)
-- Non-obvious config (cron syntax, external API specifics, env vars, middleware registration)
+## When a slice won't slice (foundational work)
 
-**When intent is enough:**
-- Model validations, associations, scopes
-- Controller actions, strong params
-- Policy methods
-- Job structure
-- Test structure (describe what to test, not every line)
+Some work is genuinely infrastructural — a refactor, or a shared abstraction nothing uses yet. Do not let it relapse into layer tasks. In order of preference:
 
-## Remember
-- Exact file paths always
-- Intent-level steps by default ("add presence validation for email", "add index action with search filtering")
-- Exact code ONLY for: migrations (including data migrations), destructive operations, non-obvious config (cron syntax, middleware registration, API-specific error handling)
-- Exact commands with expected output
-- DRY, YAGNI, TDD, frequent commits
+1. **Fold it** into the first slice that consumes it. (Default.)
+2. If too large to fold, make it the **thinnest increment that is still verifiable on its own** — it carries a test proving the new behavior, even if internal.
+3. Only as a last resort, a standalone groundwork task — and state explicitly why it can't be folded or verified as a slice.
+
+Never split foundational work back into model / controller / view layers.
+
+## Red Flags — STOP, you're building horizontally
+
+- A task titled by a layer: "models", "migrations", "controllers", "policies", "components", "routes"
+- A task that produces only one layer and nothing a user can do
+- A "write the tests" or "end-to-end system spec" task at the END of the plan
+- A slice with no end-to-end test of its own
+- Per-step write/run/implement/run/commit ceremony inside a task
+- A slice's notes restate the spec, or script HOW line-by-line, instead of pointing at convention skills
+
+| Rationalization | Reality |
+|-----------------|---------|
+| "The spec has a data-model section, so I'll make a model task" | The data model is split *across* the slices that use it. No model-only task. |
+| "Build the foundation first, then features" | Foundation-first = nothing ships until the end. Fold foundations into Slice 1. |
+| "Test everything at the end" | Each slice ships with its own e2e test, or it isn't a slice. |
+| "Spelling out every step is safer" | It suppresses the executor's judgment and bloats the plan. State intent. |
+| "This layer is shared, it deserves its own task" | Put it in the first slice that needs it; later slices extend it. |
 
 ## Self-Review
 
-After writing the complete plan, look at the spec with fresh eyes and check the plan against it. This is a checklist you run yourself — not a subagent dispatch.
+After writing the plan, check it against the spec with fresh eyes (a checklist you run yourself, not a subagent):
 
-**1. Spec coverage:** Skim each section/requirement in the spec. Can you point to a task that implements it? List any gaps.
+1. **Slice integrity:** Is every task a vertical slice — shippable on its own, carrying its own end-to-end test? Flag any task that's secretly a layer (model-only, "write tests" at the end) and re-slice it.
+2. **Spec coverage:** Can you point to a slice for each spec requirement? Add a slice for any gap.
+3. **Order:** Does each slice build only on earlier ones?
+4. **Thinness:** Does every slice state intent and point at convention skills by name, rather than restating the spec or scripting HOW step-by-step? Exact code only for migrations, destructive ops, or non-obvious config? If you find spec re-statement or per-step ceremony, cut it. (Adding decomposition, file lists, and end-to-end scenarios is the plan's job — that is not bloat. Don't strip real intent to hit a size target.)
 
-**2. Placeholder scan:** Search your plan for red flags — any of the patterns from the "No Placeholders" section above. Fix them.
-
-**3. Type consistency:** Do the types, method signatures, and property names you used in later tasks match what you defined in earlier tasks? A function called `clearLayers()` in Task 3 but `clearFullLayers()` in Task 7 is a bug.
-
-If you find issues, fix them inline. No need to re-review — just fix and move on. If you find a spec requirement with no task, add the task.
+Fix issues inline.
 
 ## Execution Handoff
 
@@ -174,16 +170,11 @@ After saving the plan, offer execution choice:
 
 **"Plan complete and saved to `docs/superpowers/plans/<filename>.md`. Two execution options:**
 
-**1. Subagent-Driven (recommended)** - I dispatch a fresh subagent per task, review between tasks, fast iteration
+**1. Subagent-Driven (recommended)** - one fresh subagent per slice, review between slices, fast iteration
 
-**2. Inline Execution** - Execute tasks in this session using executing-plans, batch execution with checkpoints
+**2. Inline Execution** - execute slices in this session with checkpoints
 
 **Which approach?"**
 
-**If Subagent-Driven chosen:**
-- **REQUIRED SUB-SKILL:** Use superpowers:subagent-driven-development
-- Fresh subagent per task + two-stage review
-
-**If Inline Execution chosen:**
-- **REQUIRED SUB-SKILL:** Use superpowers:executing-plans
-- Batch execution with checkpoints for review
+**If Subagent-Driven chosen:** **REQUIRED SUB-SKILL:** Use superpowers:subagent-driven-development
+**If Inline Execution chosen:** **REQUIRED SUB-SKILL:** Use superpowers:executing-plans
