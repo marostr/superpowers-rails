@@ -59,14 +59,14 @@ digraph rails_check {
 **Before writing ANY task for a Rails project, you MUST load ALL convention skills:**
 
 ```
-superpowers:rails-controller-conventions
-superpowers:rails-model-conventions
-superpowers:rails-view-conventions
-superpowers:rails-policy-conventions
-superpowers:rails-job-conventions
-superpowers:rails-migration-conventions
-superpowers:rails-stimulus-conventions
-superpowers:rails-testing-conventions
+superpowers-rails:rails-controller-conventions
+superpowers-rails:rails-model-conventions
+superpowers-rails:rails-view-conventions
+superpowers-rails:rails-policy-conventions
+superpowers-rails:rails-job-conventions
+superpowers-rails:rails-migration-conventions
+superpowers-rails:rails-stimulus-conventions
+superpowers-rails:rails-testing-conventions
 ```
 
 The executor will load these skills and apply them. Plans reference conventions by name, not by duplicating their content.
@@ -91,7 +91,7 @@ If the spec covers multiple independent subsystems, it should have been broken i
 ```markdown
 # [Feature Name] Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans. Each slice below is one unit of work — implement them in order, one subagent per slice. Slices use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers-rails:subagent-driven-development (recommended) or superpowers-rails:executing-plans. Each slice below is one unit of work — implement them in order, one subagent per slice. Slices use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** [One sentence describing what this builds]
 
@@ -176,5 +176,5 @@ After saving the plan, offer execution choice:
 
 **Which approach?"**
 
-**If Subagent-Driven chosen:** **REQUIRED SUB-SKILL:** Use superpowers:subagent-driven-development
-**If Inline Execution chosen:** **REQUIRED SUB-SKILL:** Use superpowers:executing-plans
+**If Subagent-Driven chosen:** **REQUIRED SUB-SKILL:** Use superpowers-rails:subagent-driven-development
+**If Inline Execution chosen:** **REQUIRED SUB-SKILL:** Use superpowers-rails:executing-plans

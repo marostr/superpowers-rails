@@ -94,7 +94,7 @@ If you are not sure whether your integration loads the bootstrap at session star
 
 Skills are not prose — they are code that shapes agent behavior. If you modify skill content:
 
-- Use `superpowers:writing-skills` to develop and test changes
+- Use `superpowers-rails:writing-skills` to develop and test changes
 - Run adversarial pressure testing across multiple sessions
 - Show before/after eval results in your PR
 - Do not modify carefully-tuned content (Red Flags tables, rationalization lists, "human partner" language) without evidence the change is an improvement

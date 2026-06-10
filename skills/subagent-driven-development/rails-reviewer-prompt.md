@@ -29,14 +29,14 @@ Task tool (general-purpose):
     ## First: Load ALL Convention Skills
 
     Load these skills before reviewing. They contain the authoritative conventions with WRONG/RIGHT patterns:
-    - superpowers:rails-controller-conventions
-    - superpowers:rails-model-conventions
-    - superpowers:rails-view-conventions
-    - superpowers:rails-policy-conventions
-    - superpowers:rails-job-conventions
-    - superpowers:rails-migration-conventions
-    - superpowers:rails-stimulus-conventions
-    - superpowers:rails-testing-conventions
+    - superpowers-rails:rails-controller-conventions
+    - superpowers-rails:rails-model-conventions
+    - superpowers-rails:rails-view-conventions
+    - superpowers-rails:rails-policy-conventions
+    - superpowers-rails:rails-job-conventions
+    - superpowers-rails:rails-migration-conventions
+    - superpowers-rails:rails-stimulus-conventions
+    - superpowers-rails:rails-testing-conventions
 
     ## Review Process
 

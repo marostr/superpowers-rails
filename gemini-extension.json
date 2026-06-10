@@ -1,6 +1,6 @@
 {
-  "name": "superpowers",
+  "name": "superpowers-rails",
   "description": "Core skills library: TDD, debugging, collaboration patterns, and proven techniques",
-  "version": "5.1.0",
+  "version": "5.1.2-rails",
   "contextFileName": "GEMINI.md"
 }

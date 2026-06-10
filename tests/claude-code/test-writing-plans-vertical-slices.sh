@@ -95,7 +95,7 @@ GRADE_FILE="$WORK/grade.txt"
 echo "Generating plan (plugin-dir: $PLUGIN_DIR)..."
 echo "================================================================================"
 cd "$WORK" && timeout 600 claude -p \
-  "Use the superpowers:writing-plans skill to write an implementation plan for the spec at $WORK/spec.md. This is a Rails project. Save the finished plan to $PLAN_FILE using the Write tool. Do not implement any code. Your final message should only name the file you wrote." \
+  "Use the superpowers-rails:writing-plans skill to write an implementation plan for the spec at $WORK/spec.md. This is a Rails project. Save the finished plan to $PLAN_FILE using the Write tool. Do not implement any code. Your final message should only name the file you wrote." \
   --plugin-dir "$PLUGIN_DIR" \
   --add-dir "$WORK" \
   --permission-mode bypassPermissions 2>&1 | tail -5 || {
