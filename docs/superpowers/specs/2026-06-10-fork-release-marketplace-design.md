@@ -5,7 +5,7 @@
 
 ## Context
 
-This repo (`marostr/superpowers-rails`) is a fork of `obra/superpowers` carrying Rails
+This repo (`fryga-io/superpowers-rails`) is a fork of `obra/superpowers` carrying Rails
 conventions and planning-philosophy changes, but it still presents as upstream: the
 plugin is named `superpowers`, plugin.json credits Jesse Vincent and links to
 `obra/superpowers`, and the README is upstream's verbatim — including install
@@ -31,6 +31,7 @@ public marketplace — without breaking installed copies.
 | README | Fork preamble + targeted edits, not a rewrite |
 | Migration | Clean break: old installs keep working from cache but stop updating; two-command migration |
 | In-repo dev marketplace | Keep the name `superpowers-dev` so existing registrations keep matching |
+| Repo home | Transferred to `fryga-io/superpowers-rails` (2026-06-10), alongside the marketplace |
 
 ## Design
 
@@ -40,7 +41,7 @@ public marketplace — without breaking installed copies.
 - `name`: `superpowers-rails`
 - `version`: `5.1.2-rails`
 - `author`: Marcin Ostrowski
-- `homepage` / `repository`: `https://github.com/marostr/superpowers-rails`
+- `homepage` / `repository`: `https://github.com/fryga-io/superpowers-rails`
 - `description`: notes this is a Rails-focused fork of Superpowers
 
 Namespace rewrite — the plugin name is the skill namespace, so every
@@ -66,7 +67,7 @@ notes carry the weight of communicating the rename.
 host future Fryga plugins alongside this one:
 - `.claude-plugin/marketplace.json`: name `fryga`, owner Fryga (Marcin), one
   plugin entry `superpowers-rails` sourced from
-  `{"source": "github", "repo": "marostr/superpowers-rails"}`
+  `{"source": "github", "repo": "fryga-io/superpowers-rails"}`
 - Short README with install instructions
 
 Canonical install for new users:
@@ -122,8 +123,8 @@ name, so the old entry is removed rather than left subtly broken.
 
 ### 4. Release mechanics & validation
 
-Work happens on a branch → PR to `marostr/superpowers-rails` (always pass
-`--repo marostr/superpowers-rails` to `gh`).
+Work happens on a branch → PR to `fryga-io/superpowers-rails` (always pass
+`--repo fryga-io/superpowers-rails` to `gh`).
 
 Validation before tagging:
 1. Grep proves zero stale `superpowers:` namespace references remain (outside
@@ -159,6 +160,9 @@ Then:
 - **Unknown Claude Code behavior** when an installed plugin disappears from its
   marketplace. Mitigation: validation step 3 observes the real behavior before
   the migration note is finalized.
-- **Old repo-name redirect** (`marostr/superpowers` → `superpowers-rails`):
-  existing registrations rely on GitHub's redirect. Creating a *new* repo named
-  `marostr/superpowers` would silently break them — don't.
+- **Old repo-name redirects**: the repo was renamed (`marostr/superpowers` →
+  `marostr/superpowers-rails`) and then transferred to `fryga-io/superpowers-rails`
+  (2026-06-10; transfer verified non-breaking — both old URLs and the existing
+  `superpowers-dev` registration still resolve). Existing registrations rely on
+  this redirect chain. Creating a *new* repo named `marostr/superpowers` or
+  `marostr/superpowers-rails` would silently break them — don't, ever.
