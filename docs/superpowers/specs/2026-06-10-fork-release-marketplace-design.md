@@ -83,9 +83,13 @@ marketplace for installing from a checkout.
 **Migration for existing users** (using the marketplace they already have):
 
 ```
+/plugin marketplace update superpowers-dev
 /plugin uninstall superpowers@superpowers-dev
 /plugin install superpowers-rails@superpowers-dev
 ```
+
+(The first command only forces a refresh; marketplaces also auto-update, but the
+note must not depend on timing.)
 
 Why a dual listing under the old name is impossible: the skill namespace derives
 from the installed plugin name. After the rename, all internal cross-references
