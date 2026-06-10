@@ -14,14 +14,14 @@
 
 ### Slice 1: A user can install the plugin as `superpowers-rails` and it works end-to-end
 
-- [ ] **Delivers:** Installing `superpowers-rails@superpowers-dev` from this checkout yields a fully working plugin under the new name — bootstrap injects, skills invoke under the `superpowers-rails:` namespace, the rails-conventions hook gates.
-- [ ] **Touches:** `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `package.json`, `gemini-extension.json`, `hooks/session-start`, `hooks/rails-conventions.sh`, `AGENTS.md`, and every file in `skills/`, `commands/`, `tests/` containing `superpowers:<skill>` references (~111 refs across ~21 files).
-- [ ] **End-to-end test (write first, watch it fail, then build the slice to green):**
+- [x] **Delivers:** Installing `superpowers-rails@superpowers-dev` from this checkout yields a fully working plugin under the new name — bootstrap injects, skills invoke under the `superpowers-rails:` namespace, the rails-conventions hook gates.
+- [x] **Touches:** `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `package.json`, `gemini-extension.json`, `hooks/session-start`, `hooks/rails-conventions.sh`, `AGENTS.md`, and every file in `skills/`, `commands/`, `tests/` containing `superpowers:<skill>` references (~111 refs across ~21 files).
+- [x] **End-to-end test (write first, watch it fail, then build the slice to green):**
   Verification script (red first: it fails against current state because the plugin is still named `superpowers`):
   1. `jq -r .name .claude-plugin/plugin.json` == `superpowers-rails` and `.version` == `5.1.2-rails`; marketplace.json name stays `superpowers-dev`, its plugin entry is `superpowers-rails`.
   2. `grep -rn "superpowers:[a-z-]" skills/ commands/ hooks/ tests/ AGENTS.md GEMINI.md` returns nothing (allowed exceptions: none in these paths — prose mentions of upstream live only in README/docs).
   3. Live check on this machine: remove the GitHub-backed `superpowers-dev` registration, `claude plugin marketplace add /Users/marcinostrowski/own/superpowers-rails`, `claude plugin install superpowers-rails@superpowers-dev`; in a fresh `claude` session confirm the session-start bootstrap mentions `superpowers-rails:using-superpowers`, invoke one skill via the Skill tool under the new namespace, and confirm `hooks/rails-conventions.sh` still resolves skill names (its `skill_loaded` checks use the new namespace).
-- [ ] **Notes:**
+- [x] **Notes:**
   - plugin.json: author Marcin Ostrowski, homepage/repository `https://github.com/fryga-io/superpowers-rails`, description noting the Rails-focused fork. Same identity updates in the marketplace.json plugin entry (owner: Marcin).
   - Namespace rewrite is mechanical (`superpowers:` → `superpowers-rails:` in skill-reference position) but review the diff — don't touch prose like "You have superpowers." or upstream URLs.
   - The two fork behavioral tests (`tests/claude-code/test-rails-reviewer.sh`, `tests/claude-code/test-writing-plans-vertical-slices.sh`) must pass after the rewrite; they exercise renamed namespaces.
@@ -30,15 +30,15 @@
 
 ### Slice 2: A visitor can understand the fork and follow correct install/migration instructions
 
-- [ ] **Delivers:** README presents the fork honestly (what it is, attribution to Jesse Vincent, what's different), gives working install commands for the `fryga` marketplace, and a migration note for existing users; `docs/fork-changes.md` documents the upstream delta; RELEASE-NOTES gains the v5.1.2-rails entry.
-- [ ] **Touches:** `README.md`, `docs/fork-changes.md` (new), `RELEASE-NOTES.md`, `docs/upstream-sync.md`.
-- [ ] **End-to-end test (write first, watch it fail, then build the slice to green):**
+- [x] **Delivers:** README presents the fork honestly (what it is, attribution to Jesse Vincent, what's different), gives working install commands for the `fryga` marketplace, and a migration note for existing users; `docs/fork-changes.md` documents the upstream delta; RELEASE-NOTES gains the v5.1.2-rails entry.
+- [x] **Touches:** `README.md`, `docs/fork-changes.md` (new), `RELEASE-NOTES.md`, `docs/upstream-sync.md`.
+- [x] **End-to-end test (write first, watch it fail, then build the slice to green):**
   Verification (red first against current docs):
   1. README contains the fork preamble, a link to `docs/fork-changes.md` that resolves, install commands exactly `/plugin marketplace add fryga-io/claude-marketplace` + `/plugin install superpowers-rails@fryga`, and the 3-command migration block from the spec.
   2. `grep -n "obra/superpowers-marketplace\|superpowers@claude-plugins-official" README.md` returns nothing.
   3. Every fork change listed in `docs/fork-changes.md` corresponds to a file in `git diff --stat upstream/main...HEAD`, and nothing material in that diff is missing from the doc.
   4. `docs/upstream-sync.md` checklist includes "update docs/fork-changes.md" and a namespace re-application step (`superpowers:` → `superpowers-rails:` on newly merged upstream content).
-- [ ] **Notes:**
+- [x] **Notes:**
   - README scope is the spec's: preamble + targeted edits, not a rewrite. Sponsorship section stays, reframed to credit and sponsor Jesse. Other-harness install sections: re-point repo URLs to this fork where the mechanism plainly works; add "untested on this fork" where unverifiable.
   - Migration note must reflect the behavior observed in Slice 1, not theory.
   - RELEASE-NOTES entry covers: rename + why, new marketplace, migration commands, versioning note (upstream-tracking scheme, hence a patch-numbered release carrying a big change).

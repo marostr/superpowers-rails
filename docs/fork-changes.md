@@ -41,6 +41,6 @@ This is the maintained delta — what this fork adds or changes relative to upst
 
 ## What is NOT a fork change
 
-- **`CLAUDE.md` / `AGENTS.md` contributor policy** (AI-agent guidelines, disclosure requirements, dev-branch targeting) is upstream content — the fork's only delta there is one namespace line.
+- **`CLAUDE.md` / `AGENTS.md` contributor policy** (AI-agent guidelines, disclosure requirements, dev-branch targeting) is upstream content — the fork's only deltas are one namespace line there and a fork note in `.github/PULL_REQUEST_TEMPLATE.md` (PRs against this fork target `main`; there is no `dev` branch).
 - **`LICENSE`** is untouched: MIT, Jesse Vincent's copyright.
 - **`scripts/sync-to-codex-plugin.sh`** is upstream's Codex mirror tooling, left as-is.
