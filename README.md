@@ -62,7 +62,7 @@ Migrating is recommended but optional. Using the marketplace you already have:
 /plugin install superpowers-rails@superpowers-dev
 ```
 
-Or switch to the public `fryga` marketplace entirely with the commands above.
+Or switch to the public `fryga` marketplace entirely with the commands above, then run `/plugin uninstall superpowers@superpowers-dev` so you are not running both plugins at once.
 
 ### Codex CLI
 

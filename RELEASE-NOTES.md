@@ -34,7 +34,7 @@ Live testing showed that when an installed plugin's marketplace entry disappears
   /plugin install superpowers-rails@superpowers-dev
   ```
 
-  (Or switch to the public `fryga` marketplace entirely.)
+  (Or switch to the public `fryga` marketplace entirely — then uninstall `superpowers@superpowers-dev` so you are not running both plugins at once.)
 
 ### Versioning Note
 

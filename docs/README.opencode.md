@@ -1,6 +1,6 @@
-# Superpowers for OpenCode
+# Superpowers Rails for OpenCode
 
-Complete guide for using Superpowers with [OpenCode.ai](https://opencode.ai).
+Complete guide for using Superpowers Rails with [OpenCode.ai](https://opencode.ai).
 
 ## Installation
 
