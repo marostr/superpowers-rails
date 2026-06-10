@@ -1,5 +1,45 @@
 # Superpowers Release Notes
 
+## v5.1.2-rails (2026-06-10)
+
+### Plugin Renamed: superpowers → superpowers-rails
+
+The fork now ships under its own identity instead of presenting as upstream. The plugin is `superpowers-rails`, authored by Marcin Ostrowski, and the repo moved to [fryga-io/superpowers-rails](https://github.com/fryga-io/superpowers-rails) (the old `marostr/superpowers` and `marostr/superpowers-rails` URLs redirect).
+
+- **Skill namespace changed** — the namespace follows the plugin name, so every skill is now invoked as `superpowers-rails:<skill>`. ~111 internal references across skills, commands, hooks, and tests were rewritten, including the session-start bootstrap.
+- **Harness manifests renamed too** — Cursor (`.cursor-plugin/plugin.json`), Codex (`.codex-plugin/plugin.json`), Gemini (`gemini-extension.json`), and OpenCode (`package.json`) all become `superpowers-rails` at `5.1.2-rails`.
+- **Fork delta documented** — [docs/fork-changes.md](docs/fork-changes.md) is the maintained list of what differs from upstream.
+
+### New Public Marketplace
+
+New users install from Fryga's marketplace repo:
+
+```
+/plugin marketplace add fryga-io/claude-marketplace
+/plugin install superpowers-rails@fryga
+```
+
+The in-repo dev marketplace keeps the name `superpowers-dev` and now serves the plugin as `superpowers-rails`.
+
+### Existing Installs Keep Working (Legacy Safety Net)
+
+Live testing showed that when an installed plugin's marketplace entry disappears, the install hard-fails on the next marketplace refresh (`✘ failed to load — Error: Plugin superpowers not found in marketplace superpowers-dev`) and its skills vanish from sessions. To prevent that, the `superpowers-dev` marketplace keeps a deprecated `superpowers` entry pinned by `ref` and `sha` to the frozen `legacy` branch.
+
+- Existing `superpowers@superpowers-dev` installs **keep working unchanged**, frozen at 5.1.1-rails. They receive no further updates.
+- Migrating to the new name is **recommended but optional**:
+
+  ```
+  /plugin marketplace update superpowers-dev
+  /plugin uninstall superpowers@superpowers-dev
+  /plugin install superpowers-rails@superpowers-dev
+  ```
+
+  (Or switch to the public `fryga` marketplace entirely.)
+
+### Versioning Note
+
+The fork's `X.Y.Z-rails` scheme reserves major.minor for the upstream base it tracks (currently upstream v5.1.0), so this release ships as a patch-numbered version despite carrying a big change. These release notes carry the messaging the version number can't.
+
 ## v5.1.1-rails (2026-06-02)
 
 ### Upstream Sync
