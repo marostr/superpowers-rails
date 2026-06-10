@@ -4,7 +4,7 @@ Complete guide for using Superpowers with [OpenCode.ai](https://opencode.ai).
 
 ## Installation
 
-Add superpowers to the `plugin` array in your `opencode.json` (global or project-level):
+Add superpowers-rails to the `plugin` array in your `opencode.json` (global or project-level):
 
 ```json
 {
@@ -50,7 +50,7 @@ use skill tool to list skills
 ### Loading a Skill
 
 ```
-use skill tool to load superpowers/brainstorming
+use skill tool to load superpowers-rails/brainstorming
 ```
 
 ### Personal Skills

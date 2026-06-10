@@ -29,7 +29,7 @@ This is the maintained delta — what this fork adds or changes relative to upst
 ## Fork identity and distribution (v5.1.2-rails)
 
 - **Plugin renamed** `superpowers` → `superpowers-rails`; authored by Marcin Ostrowski; repo home `fryga-io/superpowers-rails`. The skill namespace follows the plugin name, so every `superpowers:<skill>` reference is rewritten to `superpowers-rails:<skill>` (~111 references across ~21 files in `skills/`, `commands/`, `hooks/`, `tests/`, `CLAUDE.md`, including the `hooks/session-start` bootstrap text).
-- **Manifests renamed** across harnesses: `.claude-plugin/plugin.json`, `.cursor-plugin/plugin.json`, `.codex-plugin/plugin.json`, `gemini-extension.json`, `package.json` (OpenCode), `.opencode/INSTALL.md`. All carry the fork's `X.Y.Z-rails` version.
+- **Manifests renamed** across harnesses: `.claude-plugin/plugin.json`, `.cursor-plugin/plugin.json`, `.codex-plugin/plugin.json`, `gemini-extension.json`, `package.json` (OpenCode), `.opencode/INSTALL.md`, `docs/README.opencode.md`. All carry the fork's `X.Y.Z-rails` version.
 - **Marketplaces**: the in-repo dev marketplace (`.claude-plugin/marketplace.json`, name `superpowers-dev`) lists `superpowers-rails` plus a deprecated `superpowers` legacy entry pinned by `ref`+`sha` to the frozen `legacy` branch, so pre-rename installs keep working at 5.1.1-rails. Public installs come from the separate `fryga-io/claude-marketplace` repo (marketplace name `fryga`).
 - **README**: fork preamble, attribution, fryga install instructions, migration note; `RELEASE-NOTES.md` carries `-rails` entries above upstream's changelog.
 
