@@ -26,7 +26,7 @@ public marketplace — without breaking installed copies.
 |---|---|
 | Audience | Assume unknown public users; installed copies must keep working |
 | Plugin name | Rename to `superpowers-rails` (Marcin's call; cost of namespace rewrite and upstream-merge friction accepted) |
-| Distribution | Separate marketplace repo `marostr/superpowers-rails-marketplace`; no official Anthropic marketplace submission |
+| Distribution | Separate company marketplace repo `fryga-io/claude-marketplace`, marketplace name `fryga`; no official Anthropic marketplace submission |
 | Versioning | Keep upstream-tracking `X.Y.Z-rails`; this release is `5.1.2-rails` |
 | README | Fork preamble + targeted edits, not a rewrite |
 | Migration | Clean break: old installs keep working from cache but stop updating; two-command migration |
@@ -62,17 +62,18 @@ notes carry the weight of communicating the rename.
 
 ### 2. Marketplaces
 
-**New repo `marostr/superpowers-rails-marketplace`** (mirrors obra's convention):
-- `.claude-plugin/marketplace.json`: name `superpowers-rails-marketplace`, owner
-  Marcin, one plugin entry `superpowers-rails` sourced from
+**New repo `fryga-io/claude-marketplace`** — Fryga's company marketplace, able to
+host future Fryga plugins alongside this one:
+- `.claude-plugin/marketplace.json`: name `fryga`, owner Fryga (Marcin), one
+  plugin entry `superpowers-rails` sourced from
   `{"source": "github", "repo": "marostr/superpowers-rails"}`
 - Short README with install instructions
 
 Canonical install for new users:
 
 ```
-/plugin marketplace add marostr/superpowers-rails-marketplace
-/plugin install superpowers-rails@superpowers-rails-marketplace
+/plugin marketplace add fryga-io/claude-marketplace
+/plugin install superpowers-rails@fryga
 ```
 
 **In-repo `.claude-plugin/marketplace.json`** keeps the name `superpowers-dev`
@@ -139,8 +140,8 @@ Validation before tagging:
 
 Then:
 - Tag `v5.1.2-rails`; GitHub release with release notes + migration commands.
-- Create and push `marostr/superpowers-rails-marketplace`; final fresh-install
-  check from the new marketplace.
+- Create and push `fryga-io/claude-marketplace`; final fresh-install check from
+  the new marketplace.
 
 ## Out of scope
 
