@@ -26,6 +26,7 @@
   - Namespace rewrite is mechanical (`superpowers:` → `superpowers-rails:` in skill-reference position) but review the diff — don't touch prose like "You have superpowers." or upstream URLs.
   - The two fork behavioral tests (`tests/claude-code/test-rails-reviewer.sh`, `tests/claude-code/test-writing-plans-vertical-slices.sh`) must pass after the rewrite; they exercise renamed namespaces.
   - While the old install is still present, observe and record what Claude Code does with `superpowers@superpowers-dev` once the marketplace no longer lists it (silent-stale vs. warning) — Slice 2's migration note must describe observed behavior.
+  - **Amendment (2026-06-10, approved by Marcin):** observed behavior was a hard break (`✘ failed to load`, skills gone from sessions). Mitigation shipped as part of this slice: frozen `legacy` branch at pre-rename main (`51339a3`, pushed) + a deprecated `superpowers` marketplace entry pinned to it by `ref` and `sha`. Verified live: the legacy entry installs 5.1.1-rails under the old name and stays enabled alongside the renamed plugin. The `legacy` branch must never be deleted. Slice 2's migration note describes this: old installs keep working frozen; migration to `superpowers-rails` is recommended but optional.
 
 ### Slice 2: A visitor can understand the fork and follow correct install/migration instructions
 

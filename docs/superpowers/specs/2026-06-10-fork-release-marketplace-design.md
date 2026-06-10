@@ -29,7 +29,7 @@ public marketplace — without breaking installed copies.
 | Distribution | Separate company marketplace repo `fryga-io/claude-marketplace`, marketplace name `fryga`; no official Anthropic marketplace submission |
 | Versioning | Keep upstream-tracking `X.Y.Z-rails`; this release is `5.1.2-rails` |
 | README | Fork preamble + targeted edits, not a rewrite |
-| Migration | Clean break: old installs keep working from cache but stop updating; two-command migration |
+| Migration | Legacy safety net (revised 2026-06-10 after live testing): a deprecated `superpowers` entry pinned to the frozen `legacy` branch keeps old installs working indefinitely; migration is optional via two commands |
 | In-repo dev marketplace | Keep the name `superpowers-dev` so existing registrations keep matching |
 | Repo home | Transferred to `fryga-io/superpowers-rails` (2026-06-10), alongside the marketplace |
 
@@ -93,11 +93,20 @@ marketplace for installing from a checkout.
 (The first command only forces a refresh; marketplaces also auto-update, but the
 note must not depend on timing.)
 
-Why a dual listing under the old name is impossible: the skill namespace derives
-from the installed plugin name. After the rename, all internal cross-references
-say `superpowers-rails:<skill>`; served under the old name those references point
-at a namespace that doesn't exist. The renamed content cannot work under the old
-name, so the old entry is removed rather than left subtly broken.
+**Legacy safety net (added after live verification, 2026-06-10):** isolated
+testing showed the original "clean break" assumption was wrong — an installed
+plugin whose marketplace entry disappears goes to `✘ failed to load` on the next
+auto-refresh and its skills vanish from sessions entirely. Therefore the in-repo
+marketplace keeps a second, deprecated entry named `superpowers`, pinned to the
+frozen `legacy` branch (pre-rename snapshot at `51339a3`, pinned by both `ref`
+and `sha`). Existing installs resolve by name and keep working indefinitely at
+5.1.1-rails; testing also confirmed an already-broken install heals itself once
+the old name reappears. The `legacy` branch must never be deleted.
+
+Serving *renamed* content under the old name remains impossible (the skill
+namespace derives from the installed plugin name, and all internal
+cross-references say `superpowers-rails:<skill>`), which is why the legacy entry
+pins frozen pre-rename content instead.
 
 ### 3. Docs & attribution
 
@@ -147,8 +156,9 @@ Then:
 ## Out of scope
 
 - Official Anthropic marketplace submission (explicitly declined).
-- Compatibility machinery for the old plugin name (legacy branches, dual
-  listings) — rejected as unworkable/YAGNI.
+- Serving renamed content under the old plugin name — unworkable (namespace
+  mismatch). The frozen-legacy-branch entry (see Marketplaces) is the supported
+  compatibility mechanism.
 - Rewriting `scripts/sync-to-codex-plugin.sh` or upstream's Codex mirror flow.
 - README rewrite beyond the preamble and targeted install/attribution edits.
 
