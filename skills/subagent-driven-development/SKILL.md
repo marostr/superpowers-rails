@@ -67,7 +67,7 @@ digraph process {
     "Read plan, extract all tasks with full text, note context, create TodoWrite" [shape=box];
     "More tasks remain?" [shape=diamond];
     "Dispatch final code reviewer subagent for entire implementation" [shape=box];
-    "Use superpowers:finishing-a-development-branch" [shape=box style=filled fillcolor=lightgreen];
+    "Use superpowers-rails:finishing-a-development-branch" [shape=box style=filled fillcolor=lightgreen];
 
     "Read plan, extract all tasks with full text, note context, create TodoWrite" -> "Dispatch implementer subagent (./implementer-prompt.md)";
     "Dispatch implementer subagent (./implementer-prompt.md)" -> "Implementer subagent asks questions?";
@@ -92,7 +92,7 @@ digraph process {
     "Mark task complete in TodoWrite" -> "More tasks remain?";
     "More tasks remain?" -> "Dispatch implementer subagent (./implementer-prompt.md)" [label="yes"];
     "More tasks remain?" -> "Dispatch final code reviewer subagent for entire implementation" [label="no"];
-    "Dispatch final code reviewer subagent for entire implementation" -> "Use superpowers:finishing-a-development-branch";
+    "Dispatch final code reviewer subagent for entire implementation" -> "Use superpowers-rails:finishing-a-development-branch";
 }
 ```
 
@@ -146,14 +146,14 @@ Implementer subagents report one of four statuses. Handle each appropriately:
 1. Include this in EVERY implementer prompt:
 ```
 Load ALL Rails convention skills before implementing:
-superpowers:rails-controller-conventions
-superpowers:rails-model-conventions
-superpowers:rails-view-conventions
-superpowers:rails-policy-conventions
-superpowers:rails-job-conventions
-superpowers:rails-migration-conventions
-superpowers:rails-stimulus-conventions
-superpowers:rails-testing-conventions
+superpowers-rails:rails-controller-conventions
+superpowers-rails:rails-model-conventions
+superpowers-rails:rails-view-conventions
+superpowers-rails:rails-policy-conventions
+superpowers-rails:rails-job-conventions
+superpowers-rails:rails-migration-conventions
+superpowers-rails:rails-stimulus-conventions
+superpowers-rails:rails-testing-conventions
 ```
 
 2. Add Rails conventions review after spec compliance:
@@ -316,13 +316,13 @@ Done!
 ## Integration
 
 **Required workflow skills:**
-- **superpowers:using-git-worktrees** - Ensures isolated workspace (creates one or verifies existing)
-- **superpowers:writing-plans** - Creates the plan this skill executes
-- **superpowers:requesting-code-review** - Code review template for reviewer subagents
-- **superpowers:finishing-a-development-branch** - Complete development after all tasks
+- **superpowers-rails:using-git-worktrees** - Ensures isolated workspace (creates one or verifies existing)
+- **superpowers-rails:writing-plans** - Creates the plan this skill executes
+- **superpowers-rails:requesting-code-review** - Code review template for reviewer subagents
+- **superpowers-rails:finishing-a-development-branch** - Complete development after all tasks
 
 **Subagents should use:**
-- **superpowers:test-driven-development** - Subagents follow TDD for each task
+- **superpowers-rails:test-driven-development** - Subagents follow TDD for each task
 
 **Alternative workflow:**
-- **superpowers:executing-plans** - Use for parallel session instead of same-session execution
+- **superpowers-rails:executing-plans** - Use for parallel session instead of same-session execution

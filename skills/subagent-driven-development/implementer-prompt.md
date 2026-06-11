@@ -20,14 +20,14 @@ Task tool (general-purpose):
 
     [If Rails project, controller adds this section:]
     Load ALL Rails convention skills BEFORE implementing:
-    superpowers:rails-controller-conventions
-    superpowers:rails-model-conventions
-    superpowers:rails-view-conventions
-    superpowers:rails-policy-conventions
-    superpowers:rails-job-conventions
-    superpowers:rails-migration-conventions
-    superpowers:rails-stimulus-conventions
-    superpowers:rails-testing-conventions
+    superpowers-rails:rails-controller-conventions
+    superpowers-rails:rails-model-conventions
+    superpowers-rails:rails-view-conventions
+    superpowers-rails:rails-policy-conventions
+    superpowers-rails:rails-job-conventions
+    superpowers-rails:rails-migration-conventions
+    superpowers-rails:rails-stimulus-conventions
+    superpowers-rails:rails-testing-conventions
 
     ## Before You Begin
 

@@ -1,14 +1,14 @@
-# Superpowers for OpenCode
+# Superpowers Rails for OpenCode
 
-Complete guide for using Superpowers with [OpenCode.ai](https://opencode.ai).
+Complete guide for using Superpowers Rails with [OpenCode.ai](https://opencode.ai).
 
 ## Installation
 
-Add superpowers to the `plugin` array in your `opencode.json` (global or project-level):
+Add superpowers-rails to the `plugin` array in your `opencode.json` (global or project-level):
 
 ```json
 {
-  "plugin": ["superpowers@git+https://github.com/obra/superpowers.git"]
+  "plugin": ["superpowers-rails@git+https://github.com/fryga-io/superpowers-rails.git"]
 }
 ```
 
@@ -50,7 +50,7 @@ use skill tool to list skills
 ### Loading a Skill
 
 ```
-use skill tool to load superpowers/brainstorming
+use skill tool to load superpowers-rails/brainstorming
 ```
 
 ### Personal Skills
@@ -91,7 +91,7 @@ To pin a specific version, use a branch or tag:
 
 ```json
 {
-  "plugin": ["superpowers@git+https://github.com/obra/superpowers.git#v5.0.3"]
+  "plugin": ["superpowers-rails@git+https://github.com/fryga-io/superpowers-rails.git#v5.1.2-rails"]
 }
 ```
 
@@ -128,14 +128,14 @@ the plugin, try installing with system npm and pointing OpenCode at the local
 package:
 
 ```powershell
-npm install superpowers@git+https://github.com/obra/superpowers.git --prefix "$HOME\.config\opencode"
+npm install superpowers-rails@git+https://github.com/fryga-io/superpowers-rails.git --prefix "$HOME\.config\opencode"
 ```
 
 Then use the installed package path in `opencode.json`:
 
 ```json
 {
-  "plugin": ["~/.config/opencode/node_modules/superpowers"]
+  "plugin": ["~/.config/opencode/node_modules/superpowers-rails"]
 }
 ```
 
@@ -152,6 +152,6 @@ Then use the installed package path in `opencode.json`:
 
 ## Getting Help
 
-- Report issues: https://github.com/obra/superpowers/issues
-- Main documentation: https://github.com/obra/superpowers
+- Report issues: https://github.com/fryga-io/superpowers-rails/issues
+- Main documentation: https://github.com/fryga-io/superpowers-rails
 - OpenCode docs: https://opencode.ai/docs/

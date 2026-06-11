@@ -22,22 +22,35 @@ fi
 # --- helpers ---
 
 # Read a dotted field path from a JSON file.
-# Handles both simple ("version") and nested ("plugins.0.version") paths.
+# Handles simple ("version"), numeric-nested ("plugins.0.version"), and
+# name-keyed ("plugins[name=superpowers-rails].version") paths. The name-keyed
+# form addresses an array element by its "name" field rather than its position,
+# so reordering the array can't retarget the wrong entry.
 read_json_field() {
   local file="$1" field="$2"
-  # Convert dot-path to jq path: "plugins.0.version" -> .plugins[0].version
-  local jq_path
-  jq_path=$(echo "$field" | sed -E 's/\.([0-9]+)/[\1]/g' | sed 's/^/./' | sed 's/\.\././g')
-  jq -r "$jq_path" "$file"
+  if [[ "$field" =~ ^(.+)\[name=(.+)\]\.(.+)$ ]]; then
+    local arr="${BASH_REMATCH[1]}" name="${BASH_REMATCH[2]}" sub="${BASH_REMATCH[3]}"
+    jq -r ".${arr}[] | select(.name==\"$name\") | .${sub}" "$file"
+  else
+    # Convert dot-path to jq path: "plugins.0.version" -> .plugins[0].version
+    local jq_path
+    jq_path=$(echo "$field" | sed -E 's/\.([0-9]+)/[\1]/g' | sed 's/^/./' | sed 's/\.\././g')
+    jq -r "$jq_path" "$file"
+  fi
 }
 
 # Write a dotted field path in a JSON file, preserving formatting.
 write_json_field() {
   local file="$1" field="$2" value="$3"
-  local jq_path
-  jq_path=$(echo "$field" | sed -E 's/\.([0-9]+)/[\1]/g' | sed 's/^/./' | sed 's/\.\././g')
   local tmp="${file}.tmp"
-  jq "$jq_path = \"$value\"" "$file" > "$tmp" && mv "$tmp" "$file"
+  if [[ "$field" =~ ^(.+)\[name=(.+)\]\.(.+)$ ]]; then
+    local arr="${BASH_REMATCH[1]}" name="${BASH_REMATCH[2]}" sub="${BASH_REMATCH[3]}"
+    jq "(.${arr}[] | select(.name==\"$name\")).${sub} = \"$value\"" "$file" > "$tmp" && mv "$tmp" "$file"
+  else
+    local jq_path
+    jq_path=$(echo "$field" | sed -E 's/\.([0-9]+)/[\1]/g' | sed 's/^/./' | sed 's/\.\././g')
+    jq "$jq_path = \"$value\"" "$file" > "$tmp" && mv "$tmp" "$file"
+  fi
 }
 
 # Read the list of declared files from config.

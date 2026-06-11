@@ -13,7 +13,7 @@ Load plan, review critically, execute tasks in batches, report for review betwee
 
 **Announce at start:** "I'm using the executing-plans skill to implement this plan."
 
-**Note:** Tell your human partner that Superpowers works much better with access to subagents. The quality of its work will be significantly higher if run on a platform with subagent support (such as Claude Code or Codex). If subagents are available, use superpowers:subagent-driven-development instead of this skill.
+**Note:** Tell your human partner that Superpowers works much better with access to subagents. The quality of its work will be significantly higher if run on a platform with subagent support (such as Claude Code or Codex). If subagents are available, use superpowers-rails:subagent-driven-development instead of this skill.
 
 ## The Process
 
@@ -36,14 +36,14 @@ For each task:
 **For Rails projects, load ALL convention skills BEFORE executing any task:**
 
 ```
-superpowers:rails-controller-conventions
-superpowers:rails-model-conventions
-superpowers:rails-view-conventions
-superpowers:rails-policy-conventions
-superpowers:rails-job-conventions
-superpowers:rails-migration-conventions
-superpowers:rails-stimulus-conventions
-superpowers:rails-testing-conventions
+superpowers-rails:rails-controller-conventions
+superpowers-rails:rails-model-conventions
+superpowers-rails:rails-view-conventions
+superpowers-rails:rails-policy-conventions
+superpowers-rails:rails-job-conventions
+superpowers-rails:rails-migration-conventions
+superpowers-rails:rails-stimulus-conventions
+superpowers-rails:rails-testing-conventions
 ```
 
 **After each batch, add Rails conventions check:**
@@ -74,7 +74,7 @@ Based on feedback:
 
 After all tasks complete and verified:
 - Announce: "I'm using the finishing-a-development-branch skill to complete this work."
-- **REQUIRED SUB-SKILL:** Use superpowers:finishing-a-development-branch
+- **REQUIRED SUB-SKILL:** Use superpowers-rails:finishing-a-development-branch
 - Follow that skill to verify tests, present options, execute choice
 
 ## When to Stop and Ask for Help
@@ -108,6 +108,6 @@ After all tasks complete and verified:
 ## Integration
 
 **Required workflow skills:**
-- **superpowers:using-git-worktrees** - Ensures isolated workspace (creates one or verifies existing)
-- **superpowers:writing-plans** - Creates the plan this skill executes
-- **superpowers:finishing-a-development-branch** - Complete development after all tasks
+- **superpowers-rails:using-git-worktrees** - Ensures isolated workspace (creates one or verifies existing)
+- **superpowers-rails:writing-plans** - Creates the plan this skill executes
+- **superpowers-rails:finishing-a-development-branch** - Complete development after all tasks

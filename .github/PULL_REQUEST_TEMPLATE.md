@@ -7,6 +7,9 @@ of human involvement will be closed without review.
 > **This PR MUST target the `dev` branch, not `main`.** `main` is the
 > released branch; active work lands on `dev` first. PRs opened against
 > `main` will be asked to retarget `dev` before review.
+>
+> **Fork note (superpowers-rails):** this fork has no `dev` branch —
+> PRs against this repo target `main`. The rule above applies upstream.
 
 ## Who is submitting this PR? (required)
 <!-- Required. PRs that omit this will be closed. We assume an agent wrote
@@ -117,7 +120,7 @@ paste the complete transcript here
 
 ## Rigor
 
-- [ ] If this is a skills change: I used `superpowers:writing-skills` and
+- [ ] If this is a skills change: I used `superpowers-rails:writing-skills` and
       completed adversarial pressure testing (paste results below)
 - [ ] This change was tested adversarially, not just on the happy path
 - [ ] I did not modify carefully-tuned content (Red Flags table,

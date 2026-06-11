@@ -94,7 +94,7 @@ OUTPUT_FILE="$TEST_PROJECT/claude-output.txt"
 
 PROMPT="I just finished a refactor. The change is between commits $BASE_SHA and $HEAD_SHA on the current branch.
 
-Use the superpowers:requesting-code-review skill to review these changes before I merge. Follow the skill exactly: dispatch the code reviewer subagent with the template, give the subagent the SHA range, and report back what it found.
+Use the superpowers-rails:requesting-code-review skill to review these changes before I merge. Follow the skill exactly: dispatch the code reviewer subagent with the template, give the subagent the SHA range, and report back what it found.
 
 Print the reviewer's full output."
 
@@ -137,7 +137,7 @@ echo "Test 1: requesting-code-review skill invoked + reviewer subagent dispatche
 if [ -z "$SESSION_FILE" ] || [ ! -f "$SESSION_FILE" ]; then
     echo "  [FAIL] Could not locate session transcript in $SESSION_DIR"
     FAILED=$((FAILED + 1))
-elif ! grep -q '"skill":"superpowers:requesting-code-review"' "$SESSION_FILE"; then
+elif ! grep -q '"skill":"superpowers-rails:requesting-code-review"' "$SESSION_FILE"; then
     echo "  [FAIL] requesting-code-review skill was not invoked"
     echo "         Session: $SESSION_FILE"
     FAILED=$((FAILED + 1))

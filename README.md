@@ -1,10 +1,18 @@
-# Superpowers
+# Superpowers Rails
+
+This is a Rails-focused fork of [Superpowers](https://github.com/obra/superpowers), Jesse Vincent's software development methodology for coding agents. The methodology is his; this fork layers Rails on top:
+
+- **Eight Rails convention skills** (models, controllers, views, policies, jobs, migrations, Stimulus, testing), enforced by a PreToolUse hook that blocks Rails file edits until the matching convention skill is loaded
+- **A Rails review stage** in the subagent review pipeline (spec compliance → Rails conventions → code quality), plus a `/codereview` command that runs the full pipeline on demand
+- **A different planning philosophy**: plans are vertical slices — every slice ships a user-visible capability — written at intent level, with exact code reserved for fragile operations
+
+The full delta against upstream is documented in [docs/fork-changes.md](docs/fork-changes.md); fork release history is in [RELEASE-NOTES.md](RELEASE-NOTES.md). Report issues with this fork at [fryga-io/superpowers-rails](https://github.com/fryga-io/superpowers-rails/issues), not upstream.
 
 Superpowers is a complete software development methodology for your coding agents, built on top of a set of composable skills and some initial instructions that make sure your agent uses them.
 
 ## Quickstart
 
-Give your agent Superpowers: [Claude Code](#claude-code), [Codex CLI](#codex-cli), [Codex App](#codex-app), [Factory Droid](#factory-droid), [Gemini CLI](#gemini-cli), [OpenCode](#opencode), [Cursor](#cursor), [GitHub Copilot CLI](#github-copilot-cli).
+Give your agent Superpowers: [Claude Code](#claude-code), [Factory Droid](#factory-droid), [Gemini CLI](#gemini-cli), [OpenCode](#opencode), [GitHub Copilot CLI](#github-copilot-cli). (This fork is not published to the Codex or Cursor marketplaces — see those sections below.)
 
 ## How it works
 
@@ -21,11 +29,7 @@ There's a bunch more to it, but that's the core of the system. And because the s
 
 ## Sponsorship
 
-If Superpowers has helped you do stuff that makes money and you are so inclined, I'd greatly appreciate it if you'd consider [sponsoring my opensource work](https://github.com/sponsors/obra).
-
-Thanks! 
-
-- Jesse
+This fork is built on Jesse Vincent's Superpowers. If it has helped you do stuff that makes money and you are so inclined, consider [sponsoring his opensource work](https://github.com/sponsors/obra).
 
 
 ## Installation
@@ -34,121 +38,103 @@ Installation differs by harness. If you use more than one, install Superpowers s
 
 ### Claude Code
 
-Superpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)
-
-#### Official Marketplace
-
-- Install the plugin from Anthropic's official marketplace:
+- Register the Fryga marketplace:
 
   ```bash
-  /plugin install superpowers@claude-plugins-official
-  ```
-
-#### Superpowers Marketplace
-
-The Superpowers marketplace provides Superpowers and some other related plugins for Claude Code.
-
-- Register the marketplace:
-
-  ```bash
-  /plugin marketplace add obra/superpowers-marketplace
-  ```
-
-- Install the plugin from this marketplace:
-
-  ```bash
-  /plugin install superpowers@superpowers-marketplace
-  ```
-
-### Codex CLI
-
-Superpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).
-
-- Open the plugin search interface:
-
-  ```bash
-  /plugins
-  ```
-
-- Search for Superpowers:
-
-  ```bash
-  superpowers
-  ```
-
-- Select `Install Plugin`.
-
-### Codex App
-
-Superpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).
-
-- In the Codex app, click on Plugins in the sidebar.
-- You should see `Superpowers` in the Coding section.
-- Click the `+` next to Superpowers and follow the prompts.
-
-### Factory Droid
-
-- Register the marketplace:
-
-  ```bash
-  droid plugin marketplace add https://github.com/obra/superpowers
+  /plugin marketplace add fryga-io/claude-marketplace
   ```
 
 - Install the plugin:
 
   ```bash
-  droid plugin install superpowers@superpowers
+  /plugin install superpowers-rails@fryga
+  ```
+
+#### Migrating from the old plugin name (existing installs)
+
+Before v5.1.2-rails this plugin was named `superpowers` and installed from this repo's own marketplace (`superpowers-dev`). Existing `superpowers@superpowers-dev` installs keep working unchanged — the marketplace keeps a deprecated `superpowers` entry frozen at 5.1.1-rails — but they receive no further updates.
+
+Migrating is recommended but optional. Using the marketplace you already have:
+
+```bash
+/plugin marketplace update superpowers-dev
+/plugin uninstall superpowers@superpowers-dev
+/plugin install superpowers-rails@superpowers-dev
+```
+
+Or switch to the public `fryga` marketplace entirely: first `/plugin uninstall superpowers@superpowers-dev` so you are never running both plugins at once, then add the `fryga` marketplace and install from it (see [Claude Code](#claude-code) above).
+
+### Codex CLI
+
+The [official Codex plugin marketplace](https://github.com/openai/plugins) serves upstream [Superpowers](https://github.com/obra/superpowers), not this fork. Installing `superpowers` there gets you upstream, without the Rails additions. This fork is not published to the Codex marketplace.
+
+### Codex App
+
+Same as Codex CLI: the Codex plugin marketplace entry is upstream Superpowers, not this fork.
+
+### Factory Droid
+
+Untested on this fork — these commands mirror upstream's git-based install, re-pointed at this repo.
+
+- Register the marketplace:
+
+  ```bash
+  droid plugin marketplace add https://github.com/fryga-io/superpowers-rails
+  ```
+
+- Install the plugin:
+
+  ```bash
+  droid plugin install superpowers-rails@superpowers-rails
   ```
 
 ### Gemini CLI
 
+Untested on this fork.
+
 - Install the extension:
 
   ```bash
-  gemini extensions install https://github.com/obra/superpowers
+  gemini extensions install https://github.com/fryga-io/superpowers-rails
   ```
 
 - Update later:
 
   ```bash
-  gemini extensions update superpowers
+  gemini extensions update superpowers-rails
   ```
 
 ### OpenCode
 
-OpenCode uses its own plugin install; install Superpowers separately even if you
+OpenCode uses its own plugin install; install Superpowers Rails separately even if you
 already use it in another harness.
 
 - Tell OpenCode:
 
   ```
-  Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md
+  Fetch and follow instructions from https://raw.githubusercontent.com/fryga-io/superpowers-rails/refs/heads/main/.opencode/INSTALL.md
   ```
 
 - Detailed docs: [docs/README.opencode.md](docs/README.opencode.md)
 
 ### Cursor
 
-- In Cursor Agent chat, install from marketplace:
-
-  ```text
-  /add-plugin superpowers
-  ```
-
-- Or search for "superpowers" in the plugin marketplace.
+The Cursor plugin marketplace entry for "superpowers" is upstream Superpowers, not this fork. This fork is not published to Cursor's marketplace.
 
 ### GitHub Copilot CLI
+
+Untested on this fork — Copilot CLI consumes Claude-Code-style marketplaces, so the Fryga marketplace should work, but we have not verified it.
 
 - Register the marketplace:
 
   ```bash
-  copilot plugin marketplace add obra/superpowers-marketplace
+  copilot plugin marketplace add fryga-io/claude-marketplace
   ```
 
 - Install the plugin:
 
   ```bash
-  copilot plugin install superpowers@superpowers-marketplace
+  copilot plugin install superpowers-rails@fryga
   ```
 
 ## The Basic Workflow
@@ -191,6 +177,9 @@ already use it in another harness.
 - **finishing-a-development-branch** - Merge/PR decision workflow
 - **subagent-driven-development** - Fast iteration with three-stage review (spec, Rails conventions, quality)
 
+**Rails** (this fork)
+- **rails-model/controller/view/policy/job/migration/stimulus/testing-conventions** - Eight convention skills, enforced by the `rails-conventions` PreToolUse hook
+
 **Meta**
 - **writing-skills** - Create new skills following best practices (includes testing methodology)
 - **using-superpowers** - Introduction to the skills system
@@ -209,10 +198,9 @@ Read [the original release announcement](https://blog.fsck.com/2025/10/09/superp
 The general contribution process for Superpowers is below. Keep in mind that we don't generally accept contributions of new skills and that any updates to skills must work across all of the coding agents we support.
 
 1. Fork the repository
-2. Switch to the 'dev' branch
-3. Create a branch for your work
-4. Follow the `writing-skills` skill for creating and testing new and modified skills
-5. Submit a PR, being sure to fill in the pull request template.
+2. Create a branch for your work from `main` (this fork has no `dev` branch)
+3. Follow the `writing-skills` skill for creating and testing new and modified skills
+4. Submit a PR, being sure to fill in the pull request template.
 
 See `skills/writing-skills/SKILL.md` for the complete guide.
 
@@ -229,5 +217,5 @@ MIT License - see LICENSE file for details
 Superpowers is built by [Jesse Vincent](https://blog.fsck.com) and the rest of the folks at [Prime Radiant](https://primeradiant.com).
 
 - **Discord**: [Join us](https://discord.gg/35wsABTejz) for community support, questions, and sharing what you're building with Superpowers
-- **Issues**: https://github.com/obra/superpowers/issues
-- **Release announcements**: [Sign up](https://primeradiant.com/superpowers/) to get notified about new versions
+- **Issues** (this fork): https://github.com/fryga-io/superpowers-rails/issues — upstream issues belong at https://github.com/obra/superpowers/issues
+- **Release announcements** (upstream): [Sign up](https://primeradiant.com/superpowers/) to get notified about new versions

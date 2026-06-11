@@ -1,4 +1,4 @@
-# Installing Superpowers for OpenCode
+# Installing Superpowers Rails for OpenCode
 
 ## Prerequisites
 
@@ -6,11 +6,11 @@
 
 ## Installation
 
-Add superpowers to the `plugin` array in your `opencode.json` (global or project-level):
+Add superpowers-rails to the `plugin` array in your `opencode.json` (global or project-level):
 
 ```json
 {
-  "plugin": ["superpowers@git+https://github.com/obra/superpowers.git"]
+  "plugin": ["superpowers-rails@git+https://github.com/fryga-io/superpowers-rails.git"]
 }
 ```
 
@@ -45,7 +45,7 @@ Use OpenCode's native `skill` tool:
 
 ```
 use skill tool to list skills
-use skill tool to load superpowers/brainstorming
+use skill tool to load superpowers-rails/brainstorming
 ```
 
 ## Updating
@@ -59,7 +59,7 @@ To pin a specific version:
 
 ```json
 {
-  "plugin": ["superpowers@git+https://github.com/obra/superpowers.git#v5.0.3"]
+  "plugin": ["superpowers-rails@git+https://github.com/fryga-io/superpowers-rails.git#v5.1.2-rails"]
 }
 ```
 
@@ -80,14 +80,14 @@ the plugin, try installing with system npm and pointing OpenCode at the local
 package:
 
 ```powershell
-npm install superpowers@git+https://github.com/obra/superpowers.git --prefix "$HOME\.config\opencode"
+npm install superpowers-rails@git+https://github.com/fryga-io/superpowers-rails.git --prefix "$HOME\.config\opencode"
 ```
 
 Then use the installed package path in `opencode.json`:
 
 ```json
 {
-  "plugin": ["~/.config/opencode/node_modules/superpowers"]
+  "plugin": ["~/.config/opencode/node_modules/superpowers-rails"]
 }
 ```
 
@@ -106,5 +106,5 @@ When skills reference Claude Code tools:
 
 ## Getting Help
 
-- Report issues: https://github.com/obra/superpowers/issues
-- Full documentation: https://github.com/obra/superpowers/blob/main/docs/README.opencode.md
+- Report issues: https://github.com/fryga-io/superpowers-rails/issues
+- Full documentation: https://github.com/fryga-io/superpowers-rails/blob/main/docs/README.opencode.md

@@ -73,100 +73,100 @@ allow_with_skill() {
 
 # Check if this is a Rails controller file
 if [[ "$file_path" == */app/controllers/*.rb ]]; then
-  if skill_loaded "superpowers:rails-controller-conventions"; then
-    allow_with_skill "superpowers:rails-controller-conventions" "controller"
+  if skill_loaded "superpowers-rails:rails-controller-conventions"; then
+    allow_with_skill "superpowers-rails:rails-controller-conventions" "controller"
   else
-    deny_without_skill "superpowers:rails-controller-conventions" "controller"
+    deny_without_skill "superpowers-rails:rails-controller-conventions" "controller"
   fi
   exit 0
 fi
 
 # Check if this is a Rails model file
 if [[ "$file_path" == */app/models/*.rb ]]; then
-  if skill_loaded "superpowers:rails-model-conventions"; then
-    allow_with_skill "superpowers:rails-model-conventions" "model"
+  if skill_loaded "superpowers-rails:rails-model-conventions"; then
+    allow_with_skill "superpowers-rails:rails-model-conventions" "model"
   else
-    deny_without_skill "superpowers:rails-model-conventions" "model"
+    deny_without_skill "superpowers-rails:rails-model-conventions" "model"
   fi
   exit 0
 fi
 
 # Check if this is a Rails view file
 if [[ "$file_path" == */app/views/*.erb ]]; then
-  if skill_loaded "superpowers:rails-view-conventions"; then
-    allow_with_skill "superpowers:rails-view-conventions" "view"
+  if skill_loaded "superpowers-rails:rails-view-conventions"; then
+    allow_with_skill "superpowers-rails:rails-view-conventions" "view"
   else
-    deny_without_skill "superpowers:rails-view-conventions" "view"
+    deny_without_skill "superpowers-rails:rails-view-conventions" "view"
   fi
   exit 0
 fi
 
 # Check if this is a Rails helper file (prohibited - should migrate to ViewComponents)
 if [[ "$file_path" == */app/helpers/*.rb ]]; then
-  if skill_loaded "superpowers:rails-view-conventions"; then
-    allow_with_skill "superpowers:rails-view-conventions" "helper"
+  if skill_loaded "superpowers-rails:rails-view-conventions"; then
+    allow_with_skill "superpowers-rails:rails-view-conventions" "helper"
   else
-    deny_without_skill "superpowers:rails-view-conventions" "helper"
+    deny_without_skill "superpowers-rails:rails-view-conventions" "helper"
   fi
   exit 0
 fi
 
 # Check if this is a ViewComponent file (Ruby, not Stimulus JS)
 if [[ "$file_path" == */app/components/*.rb ]] && [[ "$file_path" != *_controller.js ]]; then
-  if skill_loaded "superpowers:rails-view-conventions"; then
-    allow_with_skill "superpowers:rails-view-conventions" "ViewComponent"
+  if skill_loaded "superpowers-rails:rails-view-conventions"; then
+    allow_with_skill "superpowers-rails:rails-view-conventions" "ViewComponent"
   else
-    deny_without_skill "superpowers:rails-view-conventions" "ViewComponent"
+    deny_without_skill "superpowers-rails:rails-view-conventions" "ViewComponent"
   fi
   exit 0
 fi
 
 # Check if this is a Stimulus controller file
 if [[ "$file_path" == */app/components/*_controller.js ]] || [[ "$file_path" == */app/packs/controllers/*_controller.js ]]; then
-  if skill_loaded "superpowers:rails-stimulus-conventions"; then
-    allow_with_skill "superpowers:rails-stimulus-conventions" "Stimulus controller"
+  if skill_loaded "superpowers-rails:rails-stimulus-conventions"; then
+    allow_with_skill "superpowers-rails:rails-stimulus-conventions" "Stimulus controller"
   else
-    deny_without_skill "superpowers:rails-stimulus-conventions" "Stimulus controller"
+    deny_without_skill "superpowers-rails:rails-stimulus-conventions" "Stimulus controller"
   fi
   exit 0
 fi
 
 # Check if this is a Rails policy file
 if [[ "$file_path" == */app/policies/*.rb ]]; then
-  if skill_loaded "superpowers:rails-policy-conventions"; then
-    allow_with_skill "superpowers:rails-policy-conventions" "policy"
+  if skill_loaded "superpowers-rails:rails-policy-conventions"; then
+    allow_with_skill "superpowers-rails:rails-policy-conventions" "policy"
   else
-    deny_without_skill "superpowers:rails-policy-conventions" "policy"
+    deny_without_skill "superpowers-rails:rails-policy-conventions" "policy"
   fi
   exit 0
 fi
 
 # Check if this is a Rails job file
 if [[ "$file_path" == */app/jobs/*.rb ]]; then
-  if skill_loaded "superpowers:rails-job-conventions"; then
-    allow_with_skill "superpowers:rails-job-conventions" "job"
+  if skill_loaded "superpowers-rails:rails-job-conventions"; then
+    allow_with_skill "superpowers-rails:rails-job-conventions" "job"
   else
-    deny_without_skill "superpowers:rails-job-conventions" "job"
+    deny_without_skill "superpowers-rails:rails-job-conventions" "job"
   fi
   exit 0
 fi
 
 # Check if this is a database migration file
 if [[ "$file_path" == */db/migrate/*.rb ]]; then
-  if skill_loaded "superpowers:rails-migration-conventions"; then
-    allow_with_skill "superpowers:rails-migration-conventions" "migration"
+  if skill_loaded "superpowers-rails:rails-migration-conventions"; then
+    allow_with_skill "superpowers-rails:rails-migration-conventions" "migration"
   else
-    deny_without_skill "superpowers:rails-migration-conventions" "migration"
+    deny_without_skill "superpowers-rails:rails-migration-conventions" "migration"
   fi
   exit 0
 fi
 
 # Check if this is a spec file
 if [[ "$file_path" == */spec/*.rb ]]; then
-  if skill_loaded "superpowers:rails-testing-conventions"; then
-    allow_with_skill "superpowers:rails-testing-conventions" "spec"
+  if skill_loaded "superpowers-rails:rails-testing-conventions"; then
+    allow_with_skill "superpowers-rails:rails-testing-conventions" "spec"
   else
-    deny_without_skill "superpowers:rails-testing-conventions" "spec"
+    deny_without_skill "superpowers-rails:rails-testing-conventions" "spec"
   fi
   exit 0
 fi

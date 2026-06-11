@@ -1,10 +1,12 @@
 # Upstream Sync & Pre-Merge Validation
 
-This fork (`marostr/superpowers-rails`) tracks `obra/superpowers` and layers
-Rails-specific customizations on top. **`main` is the released branch** — fork
-users install via `/plugin marketplace add marostr/superpowers-rails` and pull
-the default branch on update, so anything merged to `main` ships to them
-immediately. There is no release-tag pinning and no CI gate.
+This fork (`fryga-io/superpowers-rails`) tracks `obra/superpowers` and layers
+Rails-specific customizations on top. **`main` is the released branch** — users
+install `superpowers-rails` either from the public `fryga-io/claude-marketplace`
+repo (marketplace `fryga`) or from this repo's `superpowers-dev` marketplace,
+and both sources pull this repo's default branch on update, so anything merged
+to `main` ships to them immediately. There is no release-tag pinning and no CI
+gate.
 
 Because of that, **every change reaches `main` through a merge branch that
 passes the validation gate below before its PR is merged.** Do not push
@@ -21,20 +23,44 @@ unvalidated skill/behavior changes straight to `main`.
 2. Branch from `main`: `git checkout -b merge-upstream-main-vX.Y.Z main`
 3. `git merge upstream/main --no-commit --no-ff` and resolve conflicts (see
    norms below).
-4. Run the **validation gate**.
-5. Open a PR into the fork's `main` with `--repo marostr/superpowers-rails`
+4. Re-apply the namespace substitution on newly merged upstream content:
+   `superpowers:<skill>` → `superpowers-rails:<skill>` (the skill namespace
+   follows the plugin name). Then re-run the stale-ref grep — it must return
+   nothing:
+   ```bash
+   grep -rn "superpowers:[a-z-]" skills/ commands/ hooks/ tests/ CLAUDE.md .github/
+   ```
+   The pattern `superpowers:[a-z-]` only matches the old namespace (a `:` right
+   after `superpowers`); it never matches `superpowers-rails:` (a `-` follows),
+   so no `grep -v` filter is needed — and adding one would hide stale refs that
+   share a line with a correct one. `docs/` is intentionally out of scope: it
+   holds historical plan docs whose example `superpowers:` strings are not live
+   references. When editing an *active* plan doc, fix its header by hand.
+5. Update `docs/fork-changes.md`: bump the upstream base version it states and
+   adjust the delta for anything the merge added, removed, or absorbed.
+6. Run the **validation gate**.
+7. Open a PR into the fork's `main` with `--repo fryga-io/superpowers-rails`
    (gh defaults to upstream on forks — always pass `--repo`). Show Marcin the
    complete diff first.
 
 ## Conflict-resolution norms
 
-- **Versioning.** Only `.claude-plugin/plugin.json` and
-  `.claude-plugin/marketplace.json` carry the `-rails` suffix. `package.json`,
-  `.cursor-plugin/plugin.json`, `.codex-plugin/plugin.json`, and
-  `gemini-extension.json` track the plain upstream version. Pick the next free
-  `X.Y.Z-rails` — note the fork once shipped its own `5.1.0-rails` ahead of
-  upstream, so a collision is possible (we used `5.1.1-rails` for the upstream
-  v5.1.0 sync).
+- **Versioning.** Since v5.1.2-rails, all manifests carry the fork version —
+  `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`,
+  `package.json`, `.cursor-plugin/plugin.json`, `.codex-plugin/plugin.json`,
+  and `gemini-extension.json` (the set listed in `.version-bump.json`). Pick
+  the next free `X.Y.Z-rails`, where major.minor tracks the upstream base —
+  note the fork once shipped its own `5.1.0-rails` ahead of upstream, so a
+  collision is possible (we used `5.1.1-rails` for the upstream v5.1.0 sync).
+- **Marketplace legacy entry — WARNING.** In `.claude-plugin/marketplace.json`,
+  the frozen `superpowers` legacy entry keeps pre-rename installs working
+  (pinned by `ref`+`sha` to the `legacy` branch). Never bump its version and
+  never delete the `legacy` branch. `.version-bump.json` addresses the live
+  entry by name (`plugins[name=superpowers-rails].version`), so the two entries
+  may sit in any order and a bump can never stamp the frozen one — but if you
+  add more plugins, keep each entry's `name` unique. The `ref`/`sha` source
+  pinning is confirmed working on Claude Code CLI 2.1.170 — if a future CLI
+  version rejects the marketplace, that pinning is the first place to look.
 - **RELEASE-NOTES.md.** Add a `X.Y.Z-rails` sync entry at the top; keep all
   `-rails` entries grouped above the upstream changelog block.
 - **Preserve all Rails customizations.** After resolving, confirm these still

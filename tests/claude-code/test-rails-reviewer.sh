@@ -2,8 +2,8 @@
 # Integration Test: rails-reviewer template dispatch
 # Verifies the Rails conventions reviewer — dispatched as a general-purpose
 # subagent via skills/subagent-driven-development/rails-reviewer-prompt.md
-# (the post-v5.1.0 pattern that replaced the named superpowers:rails-reviewer
-# agent) — still loads the convention skills and catches planted Rails
+# (the post-v5.1.0 pattern that replaced the dedicated rails-reviewer agent the
+# plugin previously shipped) — still loads the convention skills and catches planted Rails
 # convention violations.
 set -euo pipefail
 
@@ -213,7 +213,7 @@ if [ -z "$SESSION_FILE" ] || [ ! -f "$SESSION_FILE" ]; then
     echo "  [FAIL] Could not locate session transcript in $SESSION_DIR"
     FAILED=$((FAILED + 1))
 elif grep -q 'Load ALL Convention Skills' "$SESSION_FILE" \
-   && grep -qE 'superpowers:rails-[a-z]+-conventions' "$SESSION_FILE"; then
+   && grep -qE 'superpowers-rails:rails-[a-z]+-conventions' "$SESSION_FILE"; then
     echo "  [PASS] Dispatched subagent prompt carries the convention-loading directive"
 else
     echo "  [FAIL] Convention-loading directive / skill names not carried into the dispatch"
