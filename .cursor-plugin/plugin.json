@@ -1,7 +1,7 @@
 {
   "name": "superpowers-rails",
   "displayName": "Superpowers Rails",
-  "description": "Rails-focused fork of Superpowers: core skills library for Claude Code with TDD, debugging, collaboration patterns, and Rails conventions",
+  "description": "Rails-focused fork of Superpowers: core skills library with TDD, debugging, collaboration patterns, and Rails conventions",
   "version": "5.1.2-rails",
   "author": {
     "name": "Marcin Ostrowski",
@@ -20,7 +20,6 @@
     "rails"
   ],
   "skills": "./skills/",
-  "agents": "./agents/",
   "commands": "./commands/",
   "hooks": "./hooks/hooks-cursor.json"
 }

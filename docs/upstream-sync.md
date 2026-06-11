@@ -28,8 +28,14 @@ unvalidated skill/behavior changes straight to `main`.
    follows the plugin name). Then re-run the stale-ref grep — it must return
    nothing:
    ```bash
-   grep -rn "superpowers:[a-z-]" skills/ commands/ hooks/ tests/ | grep -v superpowers-rails:
+   grep -rn "superpowers:[a-z-]" skills/ commands/ hooks/ tests/ CLAUDE.md .github/
    ```
+   The pattern `superpowers:[a-z-]` only matches the old namespace (a `:` right
+   after `superpowers`); it never matches `superpowers-rails:` (a `-` follows),
+   so no `grep -v` filter is needed — and adding one would hide stale refs that
+   share a line with a correct one. `docs/` is intentionally out of scope: it
+   holds historical plan docs whose example `superpowers:` strings are not live
+   references. When editing an *active* plan doc, fix its header by hand.
 5. Update `docs/fork-changes.md`: bump the upstream base version it states and
    adjust the delta for anything the merge added, removed, or absorbed.
 6. Run the **validation gate**.
@@ -47,13 +53,14 @@ unvalidated skill/behavior changes straight to `main`.
   note the fork once shipped its own `5.1.0-rails` ahead of upstream, so a
   collision is possible (we used `5.1.1-rails` for the upstream v5.1.0 sync).
 - **Marketplace legacy entry — WARNING.** In `.claude-plugin/marketplace.json`,
-  `plugins[1]` is the frozen `superpowers` legacy entry that keeps pre-rename
-  installs working (pinned by `ref`+`sha` to the `legacy` branch). Never bump
-  its version, never reorder it before the `superpowers-rails` entry
-  (`.version-bump.json` addresses `plugins.0.version` by index), and never
-  delete the `legacy` branch. The `ref`/`sha` source pinning is confirmed
-  working on Claude Code CLI 2.1.170 — if a future CLI version rejects the
-  marketplace, that pinning is the first place to look.
+  the frozen `superpowers` legacy entry keeps pre-rename installs working
+  (pinned by `ref`+`sha` to the `legacy` branch). Never bump its version and
+  never delete the `legacy` branch. `.version-bump.json` addresses the live
+  entry by name (`plugins[name=superpowers-rails].version`), so the two entries
+  may sit in any order and a bump can never stamp the frozen one — but if you
+  add more plugins, keep each entry's `name` unique. The `ref`/`sha` source
+  pinning is confirmed working on Claude Code CLI 2.1.170 — if a future CLI
+  version rejects the marketplace, that pinning is the first place to look.
 - **RELEASE-NOTES.md.** Add a `X.Y.Z-rails` sync entry at the top; keep all
   `-rails` entries grouped above the upstream changelog block.
 - **Preserve all Rails customizations.** After resolving, confirm these still

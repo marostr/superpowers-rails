@@ -1,6 +1,6 @@
 # Fork Release & Marketplace Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans. Each slice below is one unit of work — implement them in order, one subagent per slice. Slices use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers-rails:subagent-driven-development (recommended) or superpowers-rails:executing-plans. Each slice below is one unit of work — implement them in order, one subagent per slice. Slices use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Ship the fork as `superpowers-rails` v5.1.2-rails with its own identity, documented upstream delta, a GitHub release, and a public Fryga marketplace — without breaking installed copies.
 

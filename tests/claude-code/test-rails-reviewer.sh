@@ -2,8 +2,8 @@
 # Integration Test: rails-reviewer template dispatch
 # Verifies the Rails conventions reviewer — dispatched as a general-purpose
 # subagent via skills/subagent-driven-development/rails-reviewer-prompt.md
-# (the post-v5.1.0 pattern that replaced the named superpowers-rails:rails-reviewer
-# agent) — still loads the convention skills and catches planted Rails
+# (the post-v5.1.0 pattern that replaced the dedicated rails-reviewer agent the
+# plugin previously shipped) — still loads the convention skills and catches planted Rails
 # convention violations.
 set -euo pipefail
 

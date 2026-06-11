@@ -12,7 +12,7 @@ Superpowers is a complete software development methodology for your coding agent
 
 ## Quickstart
 
-Give your agent Superpowers: [Claude Code](#claude-code), [Codex CLI](#codex-cli), [Codex App](#codex-app), [Factory Droid](#factory-droid), [Gemini CLI](#gemini-cli), [OpenCode](#opencode), [Cursor](#cursor), [GitHub Copilot CLI](#github-copilot-cli).
+Give your agent Superpowers: [Claude Code](#claude-code), [Factory Droid](#factory-droid), [Gemini CLI](#gemini-cli), [OpenCode](#opencode), [GitHub Copilot CLI](#github-copilot-cli). (This fork is not published to the Codex or Cursor marketplaces — see those sections below.)
 
 ## How it works
 
@@ -62,7 +62,7 @@ Migrating is recommended but optional. Using the marketplace you already have:
 /plugin install superpowers-rails@superpowers-dev
 ```
 
-Or switch to the public `fryga` marketplace entirely with the commands above, then run `/plugin uninstall superpowers@superpowers-dev` so you are not running both plugins at once.
+Or switch to the public `fryga` marketplace entirely: first `/plugin uninstall superpowers@superpowers-dev` so you are never running both plugins at once, then add the `fryga` marketplace and install from it (see [Claude Code](#claude-code) above).
 
 ### Codex CLI
 

@@ -31,6 +31,8 @@ If any of these checks fail, do not open the PR. Explain to your human partner w
 
 **All PRs MUST target the `dev` branch, not `main`.** `main` is the released branch; active work lands on `dev` first. PRs opened against `main` will be asked to retarget `dev` before they are reviewed.
 
+> **Fork note (superpowers-rails):** this fork (`fryga-io/superpowers-rails`) has no `dev` branch — PRs against this repo target `main`. The `dev`-branch rule above applies to the upstream `obra/superpowers` repo.
+
 ## What We Will Not Accept
 
 ### Third-party dependencies

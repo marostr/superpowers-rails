@@ -172,6 +172,13 @@ gh auth status >/dev/null 2>&1 || die "gh not authenticated — run 'gh auth log
 [[ -d "$UPSTREAM/.git" ]]         || die "upstream '$UPSTREAM' is not a git checkout"
 [[ -f "$UPSTREAM/.codex-plugin/plugin.json" ]] || die "committed Codex manifest missing at $UPSTREAM/.codex-plugin/plugin.json"
 
+# Fork guard: this script mirrors UPSTREAM Superpowers into prime-radiant-inc's
+# Codex marketplace slot ($FORK/$DEST_REL). Running it from the superpowers-rails
+# fork would overwrite upstream's published plugin with fork content under
+# upstream's name. Refuse unless the manifest still identifies as upstream.
+UPSTREAM_NAME="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["name"])' "$UPSTREAM/.codex-plugin/plugin.json")"
+[[ "$UPSTREAM_NAME" == "superpowers" ]] || die "refusing to sync: .codex-plugin/plugin.json declares name '$UPSTREAM_NAME', not 'superpowers'. This script publishes to the UPSTREAM Codex marketplace ($FORK/$DEST_REL); a fork must not push here. (Only the upstream maintainer should run this; if that's you, the manifest name should be 'superpowers'.)"
+
 # Read the upstream version from the committed Codex manifest.
 UPSTREAM_VERSION="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["version"])' "$UPSTREAM/.codex-plugin/plugin.json")"
 [[ -n "$UPSTREAM_VERSION" ]] || die "could not read 'version' from committed Codex manifest"
